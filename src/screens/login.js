@@ -65,22 +65,6 @@ export default class LoginScreen extends Screen {
       </View>)
   }
 
-  someFunction() {
-
-  }
-
-// <TextInput
-//           style={styles.formTextField}
-//           placeholder={"Your DDDDDDDD"}
-//           returnKeyType="next"
-//           onChangeText={this._onEmailChanged}/>
-//         <TextInput
-//           style={styles.formTextField}
-//           secureTextEntry={true}
-//           placeholder={"Your Password"}
-//           returnKeyType="go"
-//           onChangeText={this._onPasswordChanged}/>
-
   renderForm() {
     return (
       <View style={styles.formContainer}>

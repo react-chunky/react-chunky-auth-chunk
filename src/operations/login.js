@@ -1,6 +1,6 @@
-import { Core, Data } from 'react-chunky'
+import { Core, Data, Operations } from 'react-chunky'
 
-export default class LoginOperation extends Core.Operation {
+export default class LoginOperation extends Operations.Default {
 
   onResponse(json) {
     if (json.status > 400) {
