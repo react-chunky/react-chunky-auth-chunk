@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   View
 } from 'react-native'
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 
 import { Styles, Screen } from 'react-native-chunky'
 
@@ -64,23 +65,37 @@ export default class LoginScreen extends Screen {
       </View>)
   }
 
+  someFunction() {
+
+  }
+
+// <TextInput
+//           style={styles.formTextField}
+//           placeholder={"Your DDDDDDDD"}
+//           returnKeyType="next"
+//           onChangeText={this._onEmailChanged}/>
+//         <TextInput
+//           style={styles.formTextField}
+//           secureTextEntry={true}
+//           placeholder={"Your Password"}
+//           returnKeyType="go"
+//           onChangeText={this._onPasswordChanged}/>
+
   renderForm() {
     return (
       <View style={styles.formContainer}>
         <Text style={styles.formHeader}>
           Please Login
         </Text>
-        <TextInput
-          style={styles.formTextField}
-          placeholder={"Your Email"}
-          returnKeyType="next"
-          onChangeText={this._onEmailChanged}/>
-        <TextInput
-          style={styles.formTextField}
+        <FormLabel>Your Email</FormLabel>
+        <FormInput 
+          onChangeText={this._onEmailChanged} 
+          style={styles.formTextField}/>
+        <FormLabel>Your Password</FormLabel>
+        <FormInput 
+          onChangeText={this._onPasswordChanged} 
           secureTextEntry={true}
-          placeholder={"Your Password"}
-          returnKeyType="go"
-          onChangeText={this._onPasswordChanged}/>
+          style={styles.formTextField}/>        
         <Button
           style={styles.formButton}
           onPress={this._onLoginPressed}
@@ -121,9 +136,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: 200,
     alignSelf: "center",
-    borderColor: '#a7a7a7',
-    borderWidth: 1,
-    backgroundColor: "#ffffff",
     margin: 10,
     padding: 10,
     borderRadius: 4
