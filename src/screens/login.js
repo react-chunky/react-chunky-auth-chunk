@@ -5,11 +5,10 @@ import {
   Text,
   Platform,
   TextInput,
-  Button,
   ActivityIndicator,
   View
 } from 'react-native'
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
+import { FormLabel, FormInput, Button, FormValidationMessage, Card } from 'react-native-elements'
 
 import { Styles, Screen } from 'react-native-chunky'
 
@@ -66,28 +65,29 @@ export default class LoginScreen extends Screen {
   }
 
   renderForm() {
-    return (
-      <View style={styles.formContainer}>
-        <Text style={styles.formHeader}>
-          Please Login
-        </Text>
-        <FormLabel>Your Email</FormLabel>
-        <FormInput 
-          onChangeText={this._onEmailChanged} 
-          style={styles.formTextField}/>
-        <FormLabel>Your Password</FormLabel>
-        <FormInput 
-          onChangeText={this._onPasswordChanged} 
-          secureTextEntry={true}
-          style={styles.formTextField}/>        
-        <Button
-          style={styles.formButton}
-          onPress={this._onLoginPressed}
-          title="Login Now"
-        />
-        { this.renderError() }
-      </View>
-    )
+    return (<View style={styles.container}>
+          <Card
+            title='Please Sign In'
+            titleStyle={styles.formHeader}
+            style={styles.formContainer}>
+            <FormInput
+             placeholder={'Enter Your Email'}  
+             onChangeText={this._onEmailChanged} 
+             style={styles.formTextField}/>
+           <FormInput 
+             placeholder={'Enter Your Password'}  
+             onChangeText={this._onPasswordChanged} 
+             secureTextEntry={true}
+             style={styles.formTextField}/>        
+           <Button
+             style={styles.formButton}
+             backgroundColor='#039BE5'
+             onPress={this._onLoginPressed}
+             icon={{name: 'user-circle-o', type: 'font-awesome'}}
+             title='SIGN IN NOW' />
+          </Card>
+         
+        </View>)
   }
 
   render() {
@@ -96,35 +96,43 @@ export default class LoginScreen extends Screen {
 }
 
 const styles = StyleSheet.create({
-  formContainer: {
+  container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#eeeeee'
   },
   formHeader: {
-    marginBottom: 20,
-    marginTop: 200,
-    fontSize: 20,
-    alignSelf: "center",
-    color: "#474747",
+    padding: 10,
+  },
+  formContainer: {
+    backgroundColor: '#ffffff',
+    padding: 10,
+    margin: 20,
+    shadowColor: '#999999',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowRadius: 5,
+    shadowOpacity: 0.5
   },
   formError: {
     marginTop: 20,
     fontSize: 14,
     alignSelf: "center",
-    color: "#ee3333",
+    color: "#ee3333"
   },
   formTextField: {
-    height: 40,
+    height: 60,
     width: 200,
     alignSelf: "center",
-    margin: 10,
-    padding: 10,
-    borderRadius: 4
+    marginBottom: 0,
+    padding: 0,
+    backgroundColor: "#ffffff"
   },
   formButton: {
-    margin: 20
+    margin: 50
   }
 })
