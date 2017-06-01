@@ -49,9 +49,9 @@ export default class LoginScreen extends Screen {
       return (<View/>)
     }
 
-    return (<Text style={styles.formError}>
-      { this.state.error.message }
-    </Text>)
+  return (<FormValidationMessage style={styles.formError}>    
+    { this.state.error.message }
+  </FormValidationMessage>)
   }
 
   renderProgress() {
@@ -86,6 +86,7 @@ export default class LoginScreen extends Screen {
              icon={{name: 'user-circle-o', type: 'font-awesome'}}
              title='SIGN IN NOW' />
           </Card>
+          { this.renderError() }
          
         </View>)
   }
@@ -120,9 +121,7 @@ const styles = StyleSheet.create({
   },
   formError: {
     marginTop: 20,
-    fontSize: 14,
-    alignSelf: "center",
-    color: "#ee3333"
+    alignSelf: "center"
   },
   formTextField: {
     height: 60,
