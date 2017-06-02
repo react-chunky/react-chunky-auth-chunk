@@ -14,30 +14,11 @@
   },
   "routes": {
     "loading": {
-      "actions": {
-        "findToken": {
-          "type": "retrieve",
-          "source": "cache",
-          "key": "chunky/auth_token"
-        }
-      }
+      "actions": ["cache://retrieve/auth#checkAuth"]
     },
     "login": {
-      "actions": {
-        "login": {
-          "source": "firebase",
-          "operation": "login/email"
-        }
-      }
+      "actions": ["firebase://login/email#signIn"]
     }
   },
-  "transitions": {
-    "not_authenticated": {
-      "route": "login",
-      "replace": true
-    },
-    "authenticated": {
-      "replace": true
-    }
-  }
+  "transitions": ["replace://login#showLogin", "replace://#showDashboard"]
 }

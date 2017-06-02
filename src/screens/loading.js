@@ -10,16 +10,15 @@ import { Styles, Screen } from 'react-native-chunky'
 export default class LoadingScreen extends Screen {
 
   componentDidMount() {
-    this.props.findToken()
+    this.props.checkAuth()
   }
 
-  authHasErrorOnTrue() {
-    this.triggerTransition("not_authenticated")
+  onDataError(type, error) {
+    this.transitions.showLogin()
   }
 
-  authHasDataOnTrue(newProps) {
-    const user = Object.assign({}, newProps.authData())
-    this.triggerTransition("authenticated", { user })
+  onData(type, data) {
+    this.transitions.showDashboard({ auth: data })
   }
 
   render() {

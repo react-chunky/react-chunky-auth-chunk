@@ -32,16 +32,15 @@ export default class LoginScreen extends Screen {
 
   onLoginPressed() {
     this.setState({ progress: true, error: "" })
-    this.props.login({ username: this.state.email, password: this.state.password })
+    this.props.signIn({ username: this.state.email, password: this.state.password })
   }
 
-  authHasErrorOnTrue(props) {
-    // The login failed
-    this.setState({ error: props.authError(), progress: false })
+  onDataError(type, error) {
+    this.setState({ error, progress: false })
   }
 
-  authHasDataOnTrue() {
-    this.triggerTransition("authenticated")
+  onData(type, data) {
+    this.transitions.showDashboard()
   }
 
   renderError() {
