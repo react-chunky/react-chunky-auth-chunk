@@ -1,2 +1,2 @@
-# react-chunky-auth-chunk
-The Default Chunky Auth Chunk
+# react-chunky-list-chunk
+The Default Chunky List Chunk

@@ -1,43 +1,14 @@
 {
-  "name": "auth",
-  "api": {
-    "login": {
-      "operation": "login",
-      "method": "GET",
-      "endpoint": "/user",
-      "secure": false,
-      "auth": {
-        "type": "Basic",
-        "base64": true
-      }
-    }
-  },
+  "name": "list",
   "routes": {
-    "loading": {
-      "actions": {
-        "findToken": {
-          "type": "retrieve",
-          "source": "cache",
-          "key": "chunky/auth_token"
-        }
-      }
+    "list": {
+      "title": "List",
+      "icon": "octicon/megaphone",
+      "actions": ["firebase://retrieve/items#retrieveItems"]
     },
-    "login": {
-      "actions": {
-        "login": {
-          "source": "firebase",
-          "operation": "login/email"
-        }
-      }
+    "details": {
+      "title": "Item Details"
     }
   },
-  "transitions": {
-    "not_authenticated": {
-      "route": "login",
-      "replace": true
-    },
-    "authenticated": {
-      "replace": true
-    }
-  }
+  "transitions": ["push://details#showDetails"]
 }

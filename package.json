@@ -1,7 +1,7 @@
 {
-  "name": "react-chunky-auth-chunk",
-  "version": "0.1.4",
-  "description": "The Default Chunky Auth Chunk",
+  "name": "react-chunky-list-chunk",
+  "version": "0.1.0",
+  "description": "The Default Chunky List Chunk",
   "scripts": {
     "test": "react-native-savor test",
     "coverage": "react-native-savor coverage",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/react-chunky/react-chunky-auth-chunk.git"
+    "url": "git+https://github.com/react-chunky/react-chunky-list-chunk.git"
   },
   "author": "I. Dan Calinescu <idancalinescu@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/react-chunky/react-chunky-auth-chunk/issues"
+    "url": "https://github.com/react-chunky/react-chunky-list-chunk/issues"
   },
-  "homepage": "https://github.com/react-chunky/react-chunky-auth-chunk",
+  "homepage": "https://github.com/react-chunky/react-chunky-list-chunk",
   "dependencies": {
     "react-native-chunky": "0.7.x"
   },

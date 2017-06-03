@@ -1,2 +1,2 @@
-export { default as loading } from './loading'
-export { default as login } from './login'
+export { default as list } from './list'
+export { default as details } from './details'
