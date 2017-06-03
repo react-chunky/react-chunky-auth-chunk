@@ -1,6 +1,7 @@
 {
   "name": "list",
   "routes": {
+<<<<<<< HEAD
     "list": {
       "title": "List",
       "icon": "octicon/megaphone",
@@ -12,3 +13,15 @@
   },
   "transitions": ["push://details#showDetails"]
 }
+=======
+    "loading": {
+      "actions": ["cache://retrieve/auth#checkAuth"]
+    },
+    "login": {
+      "actions": ["firebase://login/email#signIn"],
+      "dark": true
+    }
+  },
+  "transitions": ["replace://login#showLogin", "replace://#showDashboard"]
+}
+>>>>>>> 3bbc1f7dcc57f576c8bfe3db13775db5d051e500
