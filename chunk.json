@@ -17,7 +17,8 @@
       "actions": ["cache://retrieve/auth#checkAuth"]
     },
     "login": {
-      "actions": ["firebase://login/email#signIn"]
+      "actions": ["firebase://login/email#signIn"],
+      "dark": true
     }
   },
   "transitions": ["replace://login#showLogin", "replace://#showDashboard"]

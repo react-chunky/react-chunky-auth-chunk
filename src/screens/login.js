@@ -6,21 +6,43 @@ import {
   Platform,
   TextInput,
   ActivityIndicator,
-  View
+  View,
+  ScrollView,
+  Animated,
+  Image,
+  Dimensions,
+  Keyboard,
 } from 'react-native'
-import { FormLabel, FormInput, Button, FormValidationMessage, Card } from 'react-native-elements'
+import { FormLabel, FormInput, Button, Icon, FormValidationMessage, Card } from 'react-native-elements'
 
 import { Styles, Screen } from 'react-native-chunky'
+
+let window = Dimensions.get('window'),
+  screen = Dimensions.get('window'),
+  smallScreen  = screen.height < 500;
 
 export default class LoginScreen extends Screen {
 
   constructor(props) {
     super(props)
-    this.state = { email: "", password: "", error: "", progress: false}
+    this.state = { email: "", password: "", error: "", progress: false, loginOffset: new Animated.Value(0),}
     this._onLoginPressed = this.onLoginPressed.bind(this)
     this._onEmailChanged = this.onEmailChanged.bind(this)
     this._onPasswordChanged = this.onPasswordChanged.bind(this)
   }
+
+  componentWillMount() {
+    super.componentWillMount()
+    this.keyboardWillShowSubscription = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this));
+    this.keyboardWillHideSubscription = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this));
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount()
+    this.keyboardWillShowSubscription.remove();
+    this.keyboardWillHideSubscription.remove();
+  }
+
 
   onEmailChanged(email) {
     this.setState({ email })
@@ -33,6 +55,21 @@ export default class LoginScreen extends Screen {
   onLoginPressed() {
     this.setState({ progress: true, error: "" })
     this.props.signIn({ username: this.state.email, password: this.state.password })
+  }
+
+  keyboardWillShow(e) {
+    Animated.timing(this.state.loginOffset, {
+      duration: 220,
+      toValue: Platform.OS ==='ios' ? (smallScreen ? -250 : -70) : (smallScreen ? -180 : -130),
+    }).start();
+
+  }
+
+  keyboardWillHide() {
+    Animated.timing(this.state.loginOffset, {
+      duration: 220,
+      toValue: 0
+    }).start()
   }
 
   onDataError(type, error) {
@@ -48,9 +85,9 @@ export default class LoginScreen extends Screen {
       return (<View/>)
     }
 
-  return (<FormValidationMessage style={styles.formError}>    
-    { this.state.error.message }
-  </FormValidationMessage>)
+    return (<FormValidationMessage style={this.styles.formError}>
+          { this.state.error.message }
+      </FormValidationMessage>)
   }
 
   renderProgress() {
@@ -63,31 +100,56 @@ export default class LoginScreen extends Screen {
       </View>)
   }
 
-  renderForm() {
-    return (<View style={styles.container}>
-          <Card
-            title='Please Sign In'
-            titleStyle={styles.formHeader}
-            style={styles.formContainer}>
-            <FormInput
-             placeholder={'Enter Your Email'}  
-             onChangeText={this._onEmailChanged} 
-             style={styles.formTextField}/>
-           <FormInput 
-             placeholder={'Enter Your Password'}  
-             onChangeText={this._onPasswordChanged} 
-             secureTextEntry={true}
-             style={styles.formTextField}/>        
-           <Button
-             style={styles.formButton}
-             backgroundColor='#039BE5'
-             onPress={this._onLoginPressed}
-             icon={{name: 'user-circle-o', type: 'font-awesome'}}
-             title='SIGN IN NOW' />
+  get styles () {
+    return Object.assign(super.styles, styles(this.props))
+  }
+
+  renderContent() {
+    return (
+      <View style={this.styles.container}>
+      <Animated.View style={[{ transform: [{translateY: this.state.loginOffset}]}]}>
+        <Icon
+          reverse={this.props.dark}
+          size={80}
+          style={this.styles.logo}
+          name='lock'
+          color='#37474F'
+        />
+        <Card
+          title='Please Sign In'
+          titleStyle={this.styles.formHeader}
+          style={this.styles.formContainer}>
+          <FormInput
+            placeholder={'Enter Your Email'}
+            onChangeText={this._onEmailChanged}
+            autoCorrect={false}
+            blurOnSubmit={false}
+            autoCapitalize='none'
+            style={this.styles.formTextField}/>
+          <FormInput
+            placeholder={'Enter Your Password'}
+            onChangeText={this._onPasswordChanged}
+            secureTextEntry={true}
+            autoCorrect={false}
+            blurOnSubmit={false}
+            style={this.styles.formTextField}/>
+          <Button
+            style={this.styles.formButton}
+            backgroundColor='#039BE5'
+            onPress={this._onLoginPressed}
+            icon={{name: 'user-circle-o', type: 'font-awesome'}}
+            title='SIGN IN NOW' />
           </Card>
           { this.renderError() }
-         
-        </View>)
+        </Animated.View></View>
+        )
+  }
+
+  renderForm() {
+    return (
+      <ScrollView contentContainerStyle={this.styles.container}>
+        { this.renderContent() }
+      </ScrollView>)
   }
 
   render() {
@@ -95,13 +157,18 @@ export default class LoginScreen extends Screen {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = (props) => StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eeeeee'
+    backgroundColor: props.dark ? '#37474F' : '#FAFAFA'
+  },
+  logo: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
   },
   formHeader: {
     padding: 10,
@@ -110,6 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     padding: 10,
     margin: 20,
+    borderRadius: 4,
     shadowColor: '#999999',
     shadowOffset: {
       width: 0,
@@ -119,7 +187,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5
   },
   formError: {
-    marginTop: 20,
+    marginTop: 0,
     alignSelf: "center"
   },
   formTextField: {
