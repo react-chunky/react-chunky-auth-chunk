@@ -1,20 +1,8 @@
 {
   "name": "auth",
-  "api": {
-    "login": {
-      "operation": "login",
-      "method": "GET",
-      "endpoint": "/user",
-      "secure": false,
-      "auth": {
-        "type": "Basic",
-        "base64": true
-      }
-    }
-  },
   "routes": {
     "loading": {
-      "actions": ["cache://retrieve/auth#checkAuth"]
+      "actions": ["cache://retrieve/auth"]
     },
     "login": {
       "actions": ["firebase://login/email#signIn"],

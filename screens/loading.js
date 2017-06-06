@@ -1,24 +1,19 @@
-import React, { Component } from 'react'
-import {
-  Image,
-  View,
-  ActivityIndicator
-} from 'react-native'
-
-import { Styles, Screen } from 'react-native-chunky'
+import React from 'react'
+import { View, ActivityIndicator } from 'react-native'
+import { Screen } from 'react-native-chunky'
 
 export default class LoadingScreen extends Screen {
 
   componentDidMount() {
-    this.props.checkAuth()
+    this.props.retrieveData()
   }
 
-  onDataError(type, error) {
+  onDataError(error) {
     this.transitions.showLogin()
   }
 
-  onData(type, data) {
-    this.transitions.showDashboard({ auth: data })
+  onDataChanged(data) {
+    this.transitions.showDashboard()
   }
 
   render() {
