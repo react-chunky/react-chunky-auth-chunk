@@ -25,10 +25,12 @@ export default class LoginScreen extends Screen {
 
   constructor(props) {
     super(props)
-    this.state = { email: "", password: "", error: "", progress: false, loginOffset: new Animated.Value(0),}
+    this.state = { email: "", password: "", password2: "", error: "", progress: false, loginOffset: new Animated.Value(0), register: false}
     this._onLoginPressed = this.onLoginPressed.bind(this)
+    this._onRegisterPressed = this.onRegisterPressed.bind(this)
     this._onEmailChanged = this.onEmailChanged.bind(this)
     this._onPasswordChanged = this.onPasswordChanged.bind(this)
+    this._onPasswordConfirmedChanged = this.onPasswordConfirmedChanged.bind(this)
   }
 
   componentWillMount() {
@@ -43,7 +45,6 @@ export default class LoginScreen extends Screen {
     this.keyboardWillHideSubscription.remove();
   }
 
-
   onEmailChanged(email) {
     this.setState({ email })
   }
@@ -52,9 +53,38 @@ export default class LoginScreen extends Screen {
     this.setState({ password })
   }
 
+  onPasswordConfirmedChanged (password2) {
+    this.setState({ password2 })
+  }
+
   onLoginPressed() {
+    if (this.state.email.trim().length === 0) {
+      this.setState({ progress: false, error: "Please enter an email address" })
+      return        
+    }      
+
+    if (this.state.password.trim().length === 0) {
+      this.setState({ progress: false, error: "Please enter a password" })
+      return        
+    }      
+
+    if (!this.state.register) {
+      this.setState({ progress: true, error: "" })
+      this.props.loginEmail({ username: this.state.email, password: this.state.password })
+      return
+    }
+
+    if (this.state.password !== this.state.password2) {
+      this.setState({ progress: false, error: "The passwords do not match" })
+      return        
+    }
+
     this.setState({ progress: true, error: "" })
-    this.props.loginEmail({ username: this.state.email, password: this.state.password })
+    this.props.registerEmail({ username: this.state.email, password: this.state.password })
+  }
+
+  onRegisterPressed() {
+    this.setState({ register: !this.state.register, error: '' })
   }
 
   keyboardWillShow(e) {
@@ -73,7 +103,7 @@ export default class LoginScreen extends Screen {
   }
 
   onDataError(error) {
-    this.setState({ error, progress: false })
+    this.setState({ error: error.message || 'Oops, this should not happen', progress: false })
   }
 
   onDataChanged(data) {
@@ -85,9 +115,9 @@ export default class LoginScreen extends Screen {
       return (<View/>)
     }
 
-    return (<FormValidationMessage style={this.styles.formError}>
-          { this.state.error.message }
-      </FormValidationMessage>)
+    return (<Text style={this.styles.formError}>
+          { this.state.error }
+      </Text>)
   }
 
   renderProgress() {
@@ -104,6 +134,20 @@ export default class LoginScreen extends Screen {
     return Object.assign(super.styles, styles(this.props))
   }
 
+  renderExtraField() {
+    if (this.state.register) {
+      return (<FormInput
+            placeholder={'Confirm your password'}
+            onChangeText={this._onPasswordConfirmedChanged}
+            secureTextEntry={true}
+            autoCorrect={false}
+            blurOnSubmit={false}
+            style={this.styles.formTextField}/>)
+    }
+
+    return (<View/>)
+  }
+
   renderContent() {
     return (
       <View style={this.styles.container}>
@@ -112,11 +156,11 @@ export default class LoginScreen extends Screen {
           reverse={this.props.dark}
           size={80}
           style={this.styles.logo}
-          name='lock'
+          name={ this.state.register ? 'account-circle' : 'lock' }
           color='#37474F'
         />
         <Card
-          title='Please Sign In'
+          title={ this.state.register ? 'Create A New Account' : 'Please Sign In' }
           titleStyle={this.styles.formHeader}
           style={this.styles.formContainer}>
           <FormInput
@@ -127,19 +171,26 @@ export default class LoginScreen extends Screen {
             autoCapitalize='none'
             style={this.styles.formTextField}/>
           <FormInput
-            placeholder={'Enter Your Password'}
+            placeholder={this.state.register ? 'Choose a password' : 'Enter Your Password' }
             onChangeText={this._onPasswordChanged}
             secureTextEntry={true}
             autoCorrect={false}
             blurOnSubmit={false}
             style={this.styles.formTextField}/>
+          { this.renderExtraField() }
           <Button
             style={this.styles.formButton}
             backgroundColor='#039BE5'
             onPress={this._onLoginPressed}
             icon={{name: 'user-circle-o', type: 'font-awesome'}}
-            title='SIGN IN NOW' />
-          </Card>
+            title={ this.state.register ? 'Sign Up' : 'Sign In'} />
+          <Button
+            style={this.styles.formSecondaryButton}
+            backgroundColor='#ffffff'
+            color="#039BE5"
+            onPress={this._onRegisterPressed}
+            title={ this.state.register ? 'Already have an account?' : 'Create an account' }/>
+            </Card>
           { this.renderError() }
         </Animated.View></View>
         )
@@ -188,17 +239,24 @@ const styles = (props) => StyleSheet.create({
   },
   formError: {
     marginTop: 0,
-    alignSelf: "center"
+    alignSelf: "center",
+    color: props.dark ? '#ffebee' : '#f44336'
   },
   formTextField: {
     height: 60,
-    width: 200,
+    width: 250,
     alignSelf: "center",
     marginBottom: 0,
     padding: 0,
     backgroundColor: "#ffffff"
   },
   formButton: {
-    margin: 50
+    marginLeft: 60,
+    marginRight: 60,
+    marginTop: 40,
+    marginBottom: 20
+  },
+  formSecondaryButton: {
+    margin: 10
   }
 })
