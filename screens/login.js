@@ -54,7 +54,7 @@ export default class LoginScreen extends Screen {
 
   onLoginPressed() {
     this.setState({ progress: true, error: "" })
-    this.props.signIn({ username: this.state.email, password: this.state.password })
+    this.props.loginEmail({ username: this.state.email, password: this.state.password })
   }
 
   keyboardWillShow(e) {
@@ -72,11 +72,11 @@ export default class LoginScreen extends Screen {
     }).start()
   }
 
-  onDataError(type, error) {
+  onDataError(error) {
     this.setState({ error, progress: false })
   }
 
-  onData(type, data) {
+  onDataChanged(data) {
     this.transitions.showDashboard()
   }
 

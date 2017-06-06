@@ -4,10 +4,6 @@ import { Screen } from 'react-native-chunky'
 
 export default class LoadingScreen extends Screen {
 
-  componentDidMount() {
-    this.props.retrieveData()
-  }
-
   onDataError(error) {
     this.transitions.showLogin()
   }

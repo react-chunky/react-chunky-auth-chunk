@@ -2,10 +2,11 @@
   "name": "auth",
   "routes": {
     "loading": {
+      "retrieveDataOnMount": true,
       "actions": ["cache://retrieve/auth"]
     },
     "login": {
-      "actions": ["firebase://login/email#signIn"],
+      "actions": ["firebase://login/email"],
       "dark": true
     }
   },
