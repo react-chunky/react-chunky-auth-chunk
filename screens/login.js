@@ -198,7 +198,9 @@ export default class LoginScreen extends Screen {
 
   renderForm() {
     return (
-      <ScrollView contentContainerStyle={this.styles.container}>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        contentContainerStyle={this.styles.container}>
         { this.renderContent() }
       </ScrollView>)
   }
