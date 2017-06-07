@@ -47,15 +47,15 @@ export default class LoginScreen extends Screen {
   }
 
   onEmailChanged(email) {
-    this.setState({ email })
+    this.setState({ email,  error: ''})
   }
 
   onPasswordChanged(password) {
-    this.setState({ password })
+    this.setState({ password,  error: '' })
   }
 
   onPasswordConfirmedChanged (password2) {
-    this.setState({ password2 })
+    this.setState({ password2,  error: '' })
   }
 
   onLoginPressed() {
@@ -167,8 +167,10 @@ export default class LoginScreen extends Screen {
             title={ this.state.register ? 'Create A New Account' : 'Please Sign In' }
             titleStyle={this.styles.formHeader}
             style={this.styles.formContainer}>
+            { this.renderError() }
             <FormInput
               placeholder={'Enter Your Email'}
+              value={this.state.email}
               onChangeText={this._onEmailChanged}
               autoCorrect={false}
               blurOnSubmit={false}
@@ -195,7 +197,6 @@ export default class LoginScreen extends Screen {
               onPress={this._onRegisterPressed}
               title={ this.state.register ? 'Already have an account?' : 'Create an account' }/>
               </Card>
-            { this.renderError() }
           </Animated.View></View></TouchableWithoutFeedback>)
   }
 
@@ -243,9 +244,10 @@ const styles = (props) => StyleSheet.create({
     shadowOpacity: 0.5
   },
   formError: {
-    marginTop: 0,
+    marginTop: 10,
+    marginBottom: 10,
     alignSelf: "center",
-    color: props.dark ? '#ffebee' : '#f44336'
+    color: '#f44336'
   },
   formTextField: {
     height: 60,
