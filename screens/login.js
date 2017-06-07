@@ -9,6 +9,7 @@ import {
   View,
   ScrollView,
   Animated,
+  TouchableWithoutFeedback,
   Image,
   Dimensions,
   Keyboard,
@@ -58,6 +59,8 @@ export default class LoginScreen extends Screen {
   }
 
   onLoginPressed() {
+    Keyboard.dismiss()
+
     if (this.state.email.trim().length === 0) {
       this.setState({ progress: false, error: "Please enter an email address" })
       return        
@@ -150,50 +153,50 @@ export default class LoginScreen extends Screen {
 
   renderContent() {
     return (
-      <View style={this.styles.container}>
-      <Animated.View style={[{ transform: [{translateY: this.state.loginOffset}]}]}>
-        <Icon
-          reverse={this.props.dark}
-          size={80}
-          style={this.styles.logo}
-          name={ this.state.register ? 'account-circle' : 'lock' }
-          color='#37474F'
-        />
-        <Card
-          title={ this.state.register ? 'Create A New Account' : 'Please Sign In' }
-          titleStyle={this.styles.formHeader}
-          style={this.styles.formContainer}>
-          <FormInput
-            placeholder={'Enter Your Email'}
-            onChangeText={this._onEmailChanged}
-            autoCorrect={false}
-            blurOnSubmit={false}
-            autoCapitalize='none'
-            style={this.styles.formTextField}/>
-          <FormInput
-            placeholder={this.state.register ? 'Choose a password' : 'Enter Your Password' }
-            onChangeText={this._onPasswordChanged}
-            secureTextEntry={true}
-            autoCorrect={false}
-            blurOnSubmit={false}
-            style={this.styles.formTextField}/>
-          { this.renderExtraField() }
-          <Button
-            style={this.styles.formButton}
-            backgroundColor='#039BE5'
-            onPress={this._onLoginPressed}
-            icon={{name: 'user-circle-o', type: 'font-awesome'}}
-            title={ this.state.register ? 'Sign Up' : 'Sign In'} />
-          <Button
-            style={this.styles.formSecondaryButton}
-            backgroundColor='#ffffff'
-            color="#039BE5"
-            onPress={this._onRegisterPressed}
-            title={ this.state.register ? 'Already have an account?' : 'Create an account' }/>
-            </Card>
-          { this.renderError() }
-        </Animated.View></View>
-        )
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={this.styles.container}>
+        <Animated.View style={[{ transform: [{translateY: this.state.loginOffset}]}]}>
+          <Icon
+            reverse={this.props.dark}
+            size={80}
+            style={this.styles.logo}
+            name={ this.state.register ? 'account-circle' : 'lock' }
+            color='#37474F'
+          />
+          <Card
+            title={ this.state.register ? 'Create A New Account' : 'Please Sign In' }
+            titleStyle={this.styles.formHeader}
+            style={this.styles.formContainer}>
+            <FormInput
+              placeholder={'Enter Your Email'}
+              onChangeText={this._onEmailChanged}
+              autoCorrect={false}
+              blurOnSubmit={false}
+              autoCapitalize='none'
+              style={this.styles.formTextField}/>
+            <FormInput
+              placeholder={this.state.register ? 'Choose a password' : 'Enter Your Password' }
+              onChangeText={this._onPasswordChanged}
+              secureTextEntry={true}
+              autoCorrect={false}
+              blurOnSubmit={false}
+              style={this.styles.formTextField}/>
+            { this.renderExtraField() }
+            <Button
+              style={this.styles.formButton}
+              backgroundColor='#039BE5'
+              onPress={this._onLoginPressed}
+              icon={{name: 'user-circle-o', type: 'font-awesome'}}
+              title={ this.state.register ? 'Sign Up' : 'Sign In'} />
+            <Button
+              style={this.styles.formSecondaryButton}
+              backgroundColor='#ffffff'
+              color="#039BE5"
+              onPress={this._onRegisterPressed}
+              title={ this.state.register ? 'Already have an account?' : 'Create an account' }/>
+              </Card>
+            { this.renderError() }
+          </Animated.View></View></TouchableWithoutFeedback>)
   }
 
   renderForm() {
