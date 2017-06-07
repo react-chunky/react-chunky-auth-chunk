@@ -93,7 +93,7 @@ export default class LoginScreen extends Screen {
   keyboardWillShow(e) {
     Animated.timing(this.state.loginOffset, {
       duration: 220,
-      toValue: Platform.OS ==='ios' ? (smallScreen ? -250 : -70) : (smallScreen ? -180 : -130),
+      toValue: Platform.OS ===‘ios’ ? (smallScreen ? -90 : -70) : (smallScreen ? -60 : -40),
     }).start();
 
   }
