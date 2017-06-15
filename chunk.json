@@ -2,13 +2,19 @@
   "name": "auth",
   "routes": {
     "loading": {
-      "retrieveDataOnMount": true,
-      "actions": ["cache://retrieve/auth"]
+      "operations": {
+        "checkUser": "cache://retrieve/account", 
+        "cleanUp": "local://delete"
+      }
     },
     "login": {
-      "actions": ["firebase://login/email", "firebase://register/email"],
+      "startOperationsOnMount": false,
+      "operations": {
+        "signIn": "firebase://login/email?email&password", 
+        "signUp": "firebase://register/email?email&password"
+      },
       "dark": false
     }
   },
-  "transitions": ["replace://login#showLogin", "replace://#showDashboard"]
+  "transitions": ["replace://login", "replace://dashboard"]
 }

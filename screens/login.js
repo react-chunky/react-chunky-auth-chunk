@@ -26,12 +26,14 @@ export default class LoginScreen extends Screen {
 
   constructor(props) {
     super(props)
-    this.state = { email: "", password: "", password2: "", error: "", progress: false, loginOffset: new Animated.Value(0), register: false}
+
     this._onLoginPressed = this.onLoginPressed.bind(this)
     this._onRegisterPressed = this.onRegisterPressed.bind(this)
     this._onEmailChanged = this.onEmailChanged.bind(this)
     this._onPasswordChanged = this.onPasswordChanged.bind(this)
     this._onPasswordConfirmedChanged = this.onPasswordConfirmedChanged.bind(this)
+
+    this.state = { ...this.state, email: "", password: "", password2: "", error: "", progress: false, loginOffset: new Animated.Value(0), register: false}
   }
 
   componentWillMount() {
@@ -73,7 +75,7 @@ export default class LoginScreen extends Screen {
 
     if (!this.state.register) {
       this.setState({ progress: true, error: "" })
-      this.props.loginEmail({ username: this.state.email, password: this.state.password })
+      this.props.signIn({ username: this.state.email, password: this.state.password })
       return
     }
 
@@ -83,7 +85,7 @@ export default class LoginScreen extends Screen {
     }
 
     this.setState({ progress: true, error: "" })
-    this.props.registerEmail({ username: this.state.email, password: this.state.password })
+    this.props.signUp({ username: this.state.email, password: this.state.password })
   }
 
   onRegisterPressed() {
@@ -105,14 +107,6 @@ export default class LoginScreen extends Screen {
     }).start()
   }
 
-  onDataError(error) {
-    this.setState({ error: error.message || 'Oops, this should not happen', progress: false })
-  }
-
-  onDataChanged(data) {
-    this.transitions.showDashboard()
-  }
-
   renderError() {
     if (!this.state.error) {
       return (<View/>)
@@ -121,16 +115,6 @@ export default class LoginScreen extends Screen {
     return (<Text style={this.styles.formError}>
           { this.state.error }
       </Text>)
-  }
-
-  renderProgress() {
-    return (
-      <View style={this.styles.containers.main}>
-        <ActivityIndicator
-          animating={true}
-          style={{height: 120}}
-          size="small"/>
-      </View>)
   }
 
   get styles () {
@@ -149,6 +133,43 @@ export default class LoginScreen extends Screen {
     }
 
     return (<View/>)
+  }
+
+  operationDidFinish(data, error) {
+    if (error) {
+      this.setState({ error: error.main.message })
+      return
+    }
+
+    this.transitions.showDashboard()
+  }
+
+  renderDataError() {
+    return this.renderData()    
+  }
+
+  renderDataDefaults() {
+    return this.renderData()
+  }
+
+  renderDataLoading() {
+    return (
+      <View style={this.styles.containers.main}>
+        <ActivityIndicator
+          animating={true}
+          style={{height: 120}}
+          size="small"/>
+      </View>)
+  }
+
+
+  renderData() {
+    return (
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        contentContainerStyle={this.styles.container}>
+        { this.renderContent() }
+      </ScrollView>)
   }
 
   renderContent() {
@@ -200,18 +221,6 @@ export default class LoginScreen extends Screen {
           </Animated.View></View></TouchableWithoutFeedback>)
   }
 
-  renderForm() {
-    return (
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        contentContainerStyle={this.styles.container}>
-        { this.renderContent() }
-      </ScrollView>)
-  }
-
-  render() {
-    return (this.state.progress ? this.renderProgress() : this.renderForm())
-  }
 }
 
 const styles = (props) => StyleSheet.create({

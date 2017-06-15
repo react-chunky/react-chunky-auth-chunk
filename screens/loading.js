@@ -1,24 +1,26 @@
 import React from 'react'
-import { View, ActivityIndicator } from 'react-native'
 import { Screen } from 'react-native-chunky'
 
 export default class LoadingScreen extends Screen {
 
-  onDataError(error) {
-    this.transitions.showLogin()
+  operationDidFinish(data, error) {   
+    if (error && !data) {
+      // We could not find the cached account so let's clean up first
+      this.props.cleanUp()
+      return
+    }
+
+    if (!error && !data) {
+      // We've got no account data, so let's go to the login
+      this.transitions.showLogin()
+      return
+    }
+
+    if (!error && data) {
+      // We've got the account data, so let's go to the dashboard
+      this.transitions.showDashboard()
+      return
+    }
   }
 
-  onDataChanged(data) {
-    this.transitions.showDashboard()
-  }
-
-  render() {
-    return (
-      <View style={this.styles.containers.main}>
-        <ActivityIndicator
-          animating={true}
-          style={{height: 120}}
-          size="small"/>
-      </View>)
-  }
 }
