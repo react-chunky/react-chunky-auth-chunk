@@ -4,7 +4,7 @@ import { Screen } from 'react-native-chunky'
 export default class LoadingScreen extends Screen {
 
   operationDidFinish(data, error) {   
-    if (error && !data) {
+    if (error && error.main && !data) {
       // We could not find the cached account so let's clean up first
       this.props.cleanUp()
       return
