@@ -13,7 +13,20 @@
         "signIn": "firebase://login/email?email&password", 
         "signUp": "firebase://register/email?email&password"
       },
-      "dark": false
+      "dark": false,
+      "fields": {
+        "email": { "type": "email" },
+        "password": { "type": "password", "secure": true }
+      },
+      "strings": {
+        "header": "signIn",
+        "continue": "continue",
+        "question": "needAccount",
+        "emailEmpty": "enterEmail",
+        "emailPlaceholder": "email",
+        "passwordEmpty": "enterPassword",
+        "passwordPlaceholder": "password"
+      }
     }
   },
   "transitions": ["replace://login", "replace://dashboard"]
