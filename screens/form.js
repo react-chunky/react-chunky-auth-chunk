@@ -17,6 +17,10 @@ import {
 import { FormLabel, FormInput, Button, Icon, FormValidationMessage, Card } from 'react-native-elements'
 import { Styles, Screen } from 'react-native-chunky'
 
+let window = Dimensions.get('window'),
+  screen = Dimensions.get('window'),
+  smallScreen  = screen.height < 500
+
 export default class FormScreen extends Screen {
 
   constructor(props) {
@@ -108,7 +112,7 @@ export default class FormScreen extends Screen {
     return Object.assign(super.styles, styles(this.props))
   }
 
-  operationDidFinish(data, error) {
+  operationDidFinish(action, data, error) {
     if (error) {
       this.setState({ error: error.main.message })
       return
@@ -150,7 +154,7 @@ export default class FormScreen extends Screen {
             placeholder={ this.props.strings[`${name}Placeholder`] }
             onChangeText={this._onFieldChanged(name, options)}
             secureTextEntry={ options.secure }
-            autoCorrect={ options.autoCorrect }
+            autoCorrect={ false }
             blurOnSubmit={ true }
             style={this.styles.formTextField}/>)
   }
