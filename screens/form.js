@@ -86,9 +86,8 @@ export default class FormScreen extends Screen {
   keyboardWillShow(e) {
     Animated.timing(this.state.loginOffset, {
       duration: 220,
-      toValue: Platform.OS === 'ios' ? (smallScreen ? -90 : -70) : (smallScreen ? -60 : -40),
-    }).start();
-
+      toValue: Platform.OS === 'ios' ? (smallScreen ? -90 : -60) : (smallScreen ? -60 : -40),
+    }).start()
   }
 
   keyboardWillHide() {
@@ -155,7 +154,10 @@ export default class FormScreen extends Screen {
             onChangeText={this._onFieldChanged(name, options)}
             secureTextEntry={ options.secure }
             autoCorrect={ false }
+            placeholderTextColor= { "#BDBDBD" }
+            autoCapitalize={ "none" }
             blurOnSubmit={ true }
+            keyboardType={ options.type === 'email' ? 'email-address' : 'default' }
             style={this.styles.formTextField}/>)
   }
 
@@ -170,18 +172,25 @@ export default class FormScreen extends Screen {
     return fields
   }
 
+
+renderLogo() {
+return  (<Image source={require('../../../assets/logo.png')}
+                 style={this.styles.logo}/>)
+          // <Icon
+          //   reverse={this.props.dark}
+          //   size={80}
+          //   style={this.styles.logo}
+          //   name={ this.state.register ? 'account-circle' : 'lock' }
+          //   color='#37474F'
+          // />
+}
+
 renderContent() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={this.styles.container}>
         <Animated.View style={[{ transform: [{translateY: this.state.loginOffset}]}]}>
-          <Icon
-            reverse={this.props.dark}
-            size={80}
-            style={this.styles.logo}
-            name={ this.state.register ? 'account-circle' : 'lock' }
-            color='#37474F'
-          />
+          { this.renderLogo() }
           <Card
             title={ this.props.strings.header } 
             titleStyle={this.styles.formHeader}
@@ -189,13 +198,13 @@ renderContent() {
             { this.renderError() }
             { this.renderFields() }
             <Button
-              style={this.styles.formButton}
+              buttonStyle={this.styles.formButton}
               backgroundColor='#039BE5'
               onPress={this._onContinuePressed}
               icon={{name: 'user-circle-o', type: 'font-awesome'}}
-              title={ this.props.strings.continue }/> 
+              title={ this.props.strings.signIn }/> 
             <Button
-              style={this.styles.formSecondaryButton}
+              buttonStyle={this.styles.formSecondaryButton}
               backgroundColor='#ffffff'
               color="#039BE5"
               onPress={this._onQuestionPressed}
@@ -215,8 +224,7 @@ const styles = (props) => StyleSheet.create({
   },
   logo: {
     alignSelf: 'center',
-    justifyContent: 'center',
-    marginTop: 0,
+    justifyContent: 'center'
   },
   formHeader: {
     padding: 10,
@@ -225,6 +233,7 @@ const styles = (props) => StyleSheet.create({
     backgroundColor: '#ffffff',
     padding: 10,
     margin: 20,
+    elevation: 3,
     borderRadius: 4,
     shadowColor: '#999999',
     shadowOffset: {
