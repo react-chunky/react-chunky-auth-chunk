@@ -7,23 +7,23 @@ export default class LoadingScreen extends Screen {
     return this.renderDataLoading()
   }
 
-  operationDidFinish(action, data, error) {   
-    if (error && error.main && !data) {
-      // We could not find the cached account so let's clean up first
-      this.props.cleanUp()
-      return
-    }
+  operationDidFinish(action, data, error) {
+    switch(action) {
+      case "checkUser": 
+        // We've got a user, let's get its account
+        data && data.main && !error && this.props.getAccount({ email: data.main.user.email })
 
-    if (!error && !data) {
-      // We've got no account data, so let's go to the login
-      this.transitions.showLogin()
-      return
-    }
-
-    if (!error && data) {
-      // We've got the account data, so let's go to the dashboard
-      this.transitions.showDashboard()
-      return
+        // We could not find the cached account so let's clean up first
+        error && error.main && !data && this.props.cleanUp()
+      break
+      case "getAccount":
+        // We're ready to show the user's dashboard
+        data && data.account && !error && this.transitions.showDashboard({ account: data.account })
+      break
+      case "cleanUp":
+        // We've got no account data, so let's go to the login
+        !data && !error && this.transitions.showLogin()
+      break
     }
   }
 

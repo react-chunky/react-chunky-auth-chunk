@@ -4,6 +4,7 @@
     "loading": {
       "operations": {
         "checkUser": "cache://retrieve/account", 
+        "getAccount": "firebase://retrieve/people/email?email#account", 
         "cleanUp": "local://delete"
       }
     },
