@@ -4,15 +4,15 @@
     "loading": {
       "operations": {
         "checkUser": "cache://retrieve/account", 
-        "getAccount": "firebase://retrieve/people/email?email#account", 
+        "getAccount": "firebase://retrieve/users/:uid#account", 
         "cleanUp": "local://delete"
       }
     },
     "login": {
       "startOperationsOnMount": false,
       "operations": {
-        "signIn": "firebase://login/email?email&password", 
-        "signUp": "firebase://register/email?email&password"
+        "signIn": "firebase://login",
+        "getAccount": "firebase://retrieve/users/:uid#account"
       },
       "dark": false,
       "fields": {

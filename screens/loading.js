@@ -11,11 +11,11 @@ export default class LoadingScreen extends Screen {
     switch(action) {
       case "checkUser": 
         // We've got a user, let's get its account
-        data && data.main && !error && this.props.getAccount({ email: data.main.user.email })
+        data && data.main && !error && this.props.getAccount()
 
         // We could not find the cached account so let's clean up first
         error && error.main && !data && this.props.cleanUp()
-      break
+        break
       case "getAccount":
         // We're ready to show the user's dashboard
         data && data.account && !error && this.transitions.showDashboard({ account: data.account })

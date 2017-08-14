@@ -111,15 +111,6 @@ export default class FormScreen extends Screen {
     return Object.assign(super.styles, styles(this.props))
   }
 
-  operationDidFinish(action, data, error) {
-    if (error) {
-      this.setState({ error: error.main.message })
-      return
-    }
-
-    this.continue(this.state.fields)
-  }
-
   renderDataError() {
     return this.renderData()    
   }
