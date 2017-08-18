@@ -9,7 +9,7 @@ export default class LoadingScreen extends Screen {
 
   operationDidFinish(action, data, error) {
     switch(action) {
-      case "checkUser": 
+      case "checkUser":
         // We've got a user, let's get its account
         data && data.main && !error && this.props.getAccount()
 
