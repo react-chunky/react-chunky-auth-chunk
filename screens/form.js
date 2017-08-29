@@ -29,7 +29,7 @@ export default class FormScreen extends Screen {
     this._onContinuePressed = this.onContinuePressed.bind(this)
     this._onQuestionPressed = this.onQuestionPressed.bind(this)
     this._onFieldChanged = (name, options) => this.onFieldChanged.bind(this, name, options)
- 
+
     this.state = { ...this.state, fields: {}, error: "", progress: false, loginOffset: new Animated.Value(0) }
   }
 
@@ -73,7 +73,7 @@ export default class FormScreen extends Screen {
     if (error) {
         // The form is invalid
         this.setState({ progress: false, error })
-        return 
+        return
     }
 
     // Looks like the form is valid
@@ -112,7 +112,7 @@ export default class FormScreen extends Screen {
   }
 
   renderDataError() {
-    return this.renderData()    
+    return this.renderData()
   }
 
   renderDataDefaults() {
@@ -183,7 +183,7 @@ renderContent() {
         <Animated.View style={[{ transform: [{translateY: this.state.loginOffset}]}]}>
           { this.renderLogo() }
           <Card
-            title={ this.props.strings.header } 
+            title={ this.props.strings.header }
             titleStyle={this.styles.formHeader}
             style={this.styles.formContainer}>
             { this.renderError() }
@@ -193,13 +193,13 @@ renderContent() {
               backgroundColor='#039BE5'
               onPress={this._onContinuePressed}
               icon={{name: 'user-circle-o', type: 'font-awesome'}}
-              title={ this.props.strings.signIn }/> 
+              title={ this.props.strings.signIn }/>
             <Button
               buttonStyle={this.styles.formSecondaryButton}
               backgroundColor='#ffffff'
               color="#039BE5"
               onPress={this._onQuestionPressed}
-              title={ this.props.strings.question }/> 
+              title={ this.props.strings.question }/>
               </Card>
           </Animated.View></View></TouchableWithoutFeedback>)
   }
@@ -215,7 +215,9 @@ const styles = (props) => StyleSheet.create({
   },
   logo: {
     alignSelf: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: 80,
+    height: 80
   },
   formHeader: {
     padding: 10,
