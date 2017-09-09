@@ -30,7 +30,7 @@ export default class FormScreen extends Screen {
     this._onQuestionPressed = this.onQuestionPressed.bind(this)
     this._onFieldChanged = (name, options) => this.onFieldChanged.bind(this, name, options)
 
-    this.state = { ...this.state, fields: {}, error: "", progress: false, loginOffset: new Animated.Value(0) }
+    this.state = { ...this.state, fields: {}, error: "", progress: false, extended: true, loginOffset: new Animated.Value(0) }
   }
 
   componentWillMount() {
@@ -55,12 +55,8 @@ export default class FormScreen extends Screen {
 
   verify(data) {}
 
-  continue() {}
-
-  question() {}
-
   onQuestionPressed() {
-    this.question()
+    this.setState({ extended: !this.state.extended })
   }
 
   onContinuePressed() {
@@ -158,22 +154,17 @@ export default class FormScreen extends Screen {
     }
     var fields = []
     for (const field in this.props.fields) {
-      fields.push(this.renderField(field, this.props.fields[field]))
+      if (this.state.extended || !this.props.fields[field].extended) {
+        fields.push(this.renderField(field, this.props.fields[field]))
+      }
     }
     return fields
   }
 
 
 renderLogo() {
-return  (<Image source={require('../../../assets/logo.png')}
+  return  (<Image source={require('../../../assets/logo.png')}
                  style={this.styles.logo}/>)
-          // <Icon
-          //   reverse={this.props.dark}
-          //   size={80}
-          //   style={this.styles.logo}
-          //   name={ this.state.register ? 'account-circle' : 'lock' }
-          //   color='#37474F'
-          // />
 }
 
 renderContent() {
@@ -183,7 +174,7 @@ renderContent() {
         <Animated.View style={[{ transform: [{translateY: this.state.loginOffset}]}]}>
           { this.renderLogo() }
           <Card
-            title={ this.props.strings.header }
+            title={  this.state.extended ? this.props.strings.headerExtended : this.props.strings.header }
             titleStyle={this.styles.formHeader}
             style={this.styles.formContainer}>
             { this.renderError() }
@@ -193,13 +184,13 @@ renderContent() {
               backgroundColor='#039BE5'
               onPress={this._onContinuePressed}
               icon={{name: 'user-circle-o', type: 'font-awesome'}}
-              title={ this.props.strings.signIn }/>
+              title={ this.state.extended ? this.props.strings.actionExtended : this.props.strings.action }/>
             <Button
               buttonStyle={this.styles.formSecondaryButton}
               backgroundColor='#ffffff'
               color="#039BE5"
               onPress={this._onQuestionPressed}
-              title={ this.props.strings.question }/>
+              title={ this.state.extended ? this.props.strings.questionExtended : this.props.strings.question }/>
               </Card>
           </Animated.View></View></TouchableWithoutFeedback>)
   }
