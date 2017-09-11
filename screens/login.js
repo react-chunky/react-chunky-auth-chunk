@@ -17,7 +17,7 @@ export default class LoginScreen extends FormScreen {
 
   constructor(props) {
     super(props)
-    this.state = { ...this.state, register: true }
+    this.state = { ...this.state, extended: true }
   }
 
   componentDidMount() {
@@ -33,13 +33,13 @@ export default class LoginScreen extends FormScreen {
       return this.props.strings.passwordEmpty
     }
 
-    if (this.state.register && (!this.state.fields.password2 || this.state.fields.password2.trim().length === 0)) {
+    if (this.state.extended && (!this.state.fields.password2 || this.state.fields.password2.trim().length === 0)) {
       return this.props.strings.password2Empty
     }
   }
 
   verify({ email, password }) {
-    if (this.state.register) {
+    if (this.state.extended) {
       this.props.signUp({ email, password })
       return
     }
@@ -49,6 +49,7 @@ export default class LoginScreen extends FormScreen {
 
   operationDidFinish(action, data, error) {
      switch(action) {
+      case "signUp":
       case "signIn":
         // We've got a user, let's get its account
         data && data.main && !error && this.props.getAccount()

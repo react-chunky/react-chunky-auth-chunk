@@ -52,11 +52,10 @@ export default class FormScreen extends Screen {
   }
 
   validate() {}
-
   verify(data) {}
 
   onQuestionPressed() {
-    this.setState({ extended: !this.state.extended })
+    this.setState({ extended: !this.state.extended, error: '' })
   }
 
   onContinuePressed() {
