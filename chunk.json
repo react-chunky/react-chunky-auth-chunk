@@ -3,32 +3,65 @@
   "routes": {
     "loading": {
       "operations": {
-        "checkUser": "cache://retrieve/account",
-        "getAccount": "firebase://retrieve/users/:uid#account",
+        "getContext": ["cache://retrieve/context#context", { "onSuccess": "checkUser", "onError": "newContext" }],
+        "checkUser": ["cache://retrieve/account#session", { "onSuccess": "getAccount", "onError": "show:login" }],
+        "newContext": ["cache://create/context#context", { "onSuccess": "show:welcome" }],
+        "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "show:dashboard" }],
+        "removeAccount": "cache://delete/account#account",
+        "removeContext": "cache://delete/context#context",
         "cleanUp": "local://delete"
       }
+    },
+    "welcome": {
+      "slides": [{
+        "id": "1",
+        "title":"Welcome",
+        "text": "This is a cool app"
+      }, {
+        "id": "2",
+        "title": "Get Ready",
+        "text": "You're going to love it"
+      }]
     },
     "login": {
       "startOperationsOnMount": false,
       "operations": {
-        "signIn": "firebase://login",
-        "signUp": "firebase://register",
-        "getAccount": "firebase://retrieve/users/:uid#account"
+        "signIn": ["firebase://login", { "onSuccess": "getAccount", "onError": "showError" }],
+        "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "show:dashboard" }]
       },
       "dark": false,
       "fields": {
         "email": { "type": "email" },
         "password": { "type": "password", "secure": true },
-        "password2": { "type": "password2", "secure": true, "extended": true }
       },
       "strings": {
         "action": "signIn",
-        "actionExtended": "signUp",
         "header": "loginToAccount",
-        "headerExtended": "createAccount",
         "continue": "continue",
         "question": "needAccount",
-        "questionExtended": "haveAccount",
+        "emailEmpty": "enterEmail",
+        "emailPlaceholder": "email",
+        "passwordEmpty": "enterPassword",
+        "passwordPlaceholder": "password"
+      }
+    },
+    "register": {
+      "startOperationsOnMount": false,
+      "operations": {
+        "signUp": ["firebase://register", { "onSuccess": "getAccount", "onError": "showError" }],
+        "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "show:dashboard" }]
+      },
+      "dark": false,
+      "fields": {
+        "email": { "type": "email" },
+        "password": { "type": "password", "secure": true },
+        "password2": { "type": "password2", "secure": true }
+      },
+      "strings": {
+        "action": "signUp",
+        "header": "createAccount",
+        "continue": "continue",
+        "question": "haveAccount",
         "emailEmpty": "enterEmail",
         "emailPlaceholder": "email",
         "passwordEmpty": "enterPassword",
@@ -38,5 +71,5 @@
       }
     }
   },
-  "transitions": ["replace://login", "replace://dashboard"]
+  "transitions": ["replace://login", "replace://welcome", "replace://register", "replace://dashboard"]
 }

@@ -1,3 +1,5 @@
-export { default as loading } from './loading'
 export { default as login } from './login'
 export { default as form } from './form'
+export { default as welcome } from './welcome'
+export { default as loading } from './loading'
+export { default as register } from './register'

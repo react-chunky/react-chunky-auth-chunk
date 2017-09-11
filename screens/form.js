@@ -16,6 +16,7 @@ import {
 } from 'react-native'
 import { FormLabel, FormInput, Button, Icon, FormValidationMessage, Card } from 'react-native-elements'
 import { Styles, Screen } from 'react-native-chunky'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 let window = Dimensions.get('window'),
   screen = Dimensions.get('window'),
@@ -52,11 +53,9 @@ export default class FormScreen extends Screen {
   }
 
   validate() {}
-  verify(data) {}
+  submit(data) {}
 
-  onQuestionPressed() {
-    this.setState({ extended: !this.state.extended, error: '' })
-  }
+  onQuestionPressed() {}
 
   onContinuePressed() {
     // Start by dismissing the keyboard
@@ -75,7 +74,7 @@ export default class FormScreen extends Screen {
     this.setState({ progress: true, error: "" })
 
     // Perform the success action
-    this.verify(this.state.fields)
+    this.submit(this.state.fields)
   }
 
   keyboardWillShow(e) {
@@ -115,13 +114,7 @@ export default class FormScreen extends Screen {
   }
 
   renderDataLoading() {
-    return (
-      <View style={this.styles.containers.main}>
-        <ActivityIndicator
-          animating={true}
-          style={{height: 120}}
-          size="small"/>
-      </View>)
+    return this.renderProgress()
   }
 
   renderData() {
@@ -166,31 +159,48 @@ renderLogo() {
                  style={this.styles.logo}/>)
 }
 
+renderSubmitButton() {
+  return (<Button
+      buttonStyle={this.styles.formButton}
+      backgroundColor={this.props.theme.primaryColor}
+      color='#ffffff'
+      onPress={this._onContinuePressed}
+      icon={{name: 'user-circle-o', type: 'font-awesome'}}
+      title={ this.props.strings.action }/>)
+}
+
+showError(error) {
+  this.setState({ error: error.message })
+}
+
+renderProgress() {
+  return (<Spinner visible={ this.state.progress } overlayColor={this.props.theme.progressColor} textContent={"Please wait a moment"} textStyle={{color: '#FFFFFF'}} />)
+}
+
+renderQuestionButton() {
+  return (<Button
+      buttonStyle={this.styles.formSecondaryButton}
+      backgroundColor='#ffffff'
+      color={this.props.theme.primaryColor}
+      onPress={this._onQuestionPressed}
+      title={ this.props.strings.question }/>)
+}
+
 renderContent() {
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={this.styles.container}>
         <Animated.View style={[{ transform: [{translateY: this.state.loginOffset}]}]}>
           { this.renderLogo() }
           <Card
-            title={  this.state.extended ? this.props.strings.headerExtended : this.props.strings.header }
+            title={ this.props.strings.header }
             titleStyle={this.styles.formHeader}
             style={this.styles.formContainer}>
             { this.renderError() }
             { this.renderFields() }
-            <Button
-              buttonStyle={this.styles.formButton}
-              backgroundColor='#039BE5'
-              onPress={this._onContinuePressed}
-              icon={{name: 'user-circle-o', type: 'font-awesome'}}
-              title={ this.state.extended ? this.props.strings.actionExtended : this.props.strings.action }/>
-            <Button
-              buttonStyle={this.styles.formSecondaryButton}
-              backgroundColor='#ffffff'
-              color="#039BE5"
-              onPress={this._onQuestionPressed}
-              title={ this.state.extended ? this.props.strings.questionExtended : this.props.strings.question }/>
-              </Card>
+            { this.renderSubmitButton() }
+            { this.renderQuestionButton() }
+          </Card>
           </Animated.View></View></TouchableWithoutFeedback>)
   }
 }
