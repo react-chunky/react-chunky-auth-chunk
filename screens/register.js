@@ -5,6 +5,10 @@ export default class RegisterScreen extends Components.Form {
 
 
   validate() {
+    if (!this.state.fields.name || this.state.fields.name.trim().length === 0) {
+      return this.props.strings.nameEmpty
+    }
+
     if (!this.state.fields.email || this.state.fields.email.trim().length === 0) {
       return this.props.strings.emailEmpty
     }
@@ -22,8 +26,8 @@ export default class RegisterScreen extends Components.Form {
     }
   }
 
-  submit({ email, password }) {
-    this.props.signUp({ email, password })
+  submit({ name, email, password }) {
+    this.props.signUp({ name, email, password })
   }
 
   onQuestionPressed() {

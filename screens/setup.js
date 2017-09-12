@@ -33,10 +33,6 @@ export default class SetupScreen extends Components.Form {
   }
 
   validate() {
-    if (!this.state.fields.name || this.state.fields.name.trim().length === 0) {
-      return this.props.strings.nameEmpty
-    }
-
     if (!this.state.fields.phone || this.state.fields.phone.trim().length === 0) {
       return this.props.strings.phoneEmpty
     }

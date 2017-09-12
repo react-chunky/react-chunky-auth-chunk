@@ -3,7 +3,7 @@
   "routes": {
     "loading": {
       "operations": {
-        "getContext": ["cache://retrieve/context#context", { "onSuccess": "checkUser", "onError": "newContext" }],
+        "getContext": ["cache://retrieve/context#context", { "onSuccess": "show:welcome", "onError": "newContext" }],
         "checkUser": ["cache://retrieve/account#session", { "onSuccess": "getAccount", "onError": "show:login" }],
         "newContext": ["cache://create/context#context", { "onSuccess": "show:welcome" }],
         "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "show:dashboard" }],
@@ -52,6 +52,7 @@
       },
       "dark": false,
       "fields": {
+        "name": { "type": "name" },
         "email": { "type": "email" },
         "password": { "type": "password", "secure": true },
         "password2": { "type": "password2", "secure": true }
@@ -61,6 +62,8 @@
         "header": "createAccount",
         "continue": "continue",
         "question": "haveAccount",
+        "nameEmpty": "enterName",
+        "namePlaceholder": "name",
         "emailEmpty": "enterEmail",
         "emailPlaceholder": "email",
         "passwordEmpty": "enterPassword",
@@ -80,8 +83,7 @@
       "detectLocation": false,
       "fields": {
         "image": { "type": "image"},
-        "name": { "type": "text" },
-        "phone": { "type": "phone" },
+        "phone": { "type": "phone" }
       },
       "strings": {
         "changePhoto": "changePhoto",
@@ -89,8 +91,6 @@
         "header": "setupAccount",
         "continue": "setup",
         "question": "skipSetup",
-        "nameEmpty": "enterName",
-        "namePlaceholder": "name",
         "phoneEmpty": "enterPhone",
         "phonePlaceholder": "phone",
         "imageEmpty": "enterImage",

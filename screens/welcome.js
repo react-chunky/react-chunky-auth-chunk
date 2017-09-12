@@ -19,6 +19,7 @@ export default class WelcomeScreen extends Screen {
 
   componentDidMount() {
     super.componentDidMount()
+    this.lightenStatusBar()
   }
 
   onRegister() {
@@ -45,15 +46,14 @@ export default class WelcomeScreen extends Screen {
         title='Get Started' />)
   }
 
-  renderLogo() {
-    return (<Image source={require('../../../assets/logow.png')}
-           style={this.styles.logo}/>)
+  renderBanner() {
+    return (<View/>)
   }
 
   renderSlide(data) {
     return (<View key={data.id} style={[styles.slide, { backgroundColor: this.props.theme.primaryColor }]}>
       <View style={styles.header}>
-            { this.renderLogo() }
+            { this.renderBanner(data) }
            <Text style={styles.title}>
             { data.title }
             </Text>
@@ -103,7 +103,7 @@ var styles = StyleSheet.create({
     marginTop: 60,
     alignItems: "center",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     height: 80,
     marginBottom: 40
   },
@@ -129,9 +129,9 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    textAlign: "center",
+    textAlign: "justify",
     color: '#ffffff',
-    fontSize: 25,
+    fontSize: 26,
     fontWeight: 'bold',
     paddingLeft: 20,
     paddingRight: 20
