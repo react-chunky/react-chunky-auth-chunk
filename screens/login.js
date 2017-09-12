@@ -1,7 +1,7 @@
 import React from 'react'
-import FormScreen from './form'
+import { Components } from 'react-native-chunky'
 
-export default class LoginScreen extends FormScreen {
+export default class LoginScreen extends Components.Form {
 
   onQuestionPressed() {
     this.transitions.showRegister()

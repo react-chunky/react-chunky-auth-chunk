@@ -1,7 +1,7 @@
 import React from 'react'
-import FormScreen from './form'
+import { Components } from 'react-native-chunky'
 
-export default class RegisterScreen extends FormScreen {
+export default class RegisterScreen extends Components.Form {
 
 
   validate() {
@@ -15,6 +15,10 @@ export default class RegisterScreen extends FormScreen {
 
     if (!this.state.fields.password2 || this.state.fields.password2.trim().length === 0) {
       return this.props.strings.password2Empty
+    }
+
+    if (this.state.fields.password2 !== this.state.fields.password) {
+      return this.props.strings.passwordsNotMatching
     }
   }
 
