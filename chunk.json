@@ -3,7 +3,7 @@
   "routes": {
     "loading": {
       "operations": {
-        "getContext": ["cache://retrieve/context#context", { "onSuccess": "show:welcome", "onError": "newContext" }],
+        "getContext": ["cache://retrieve/context#context", { "onSuccess": "checkUser", "onError": "newContext" }],
         "checkUser": ["cache://retrieve/account#session", { "onSuccess": "getAccount", "onError": "show:login" }],
         "newContext": ["cache://create/context#context", { "onSuccess": "show:welcome" }],
         "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "show:dashboard" }],
