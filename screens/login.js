@@ -16,7 +16,7 @@ export default class LoginScreen extends Components.Form {
       return this.props.strings.passwordEmpty
     }
   }
-
+  
   submit({ email, password }) {
     this.props.signIn({ email, password })
   }

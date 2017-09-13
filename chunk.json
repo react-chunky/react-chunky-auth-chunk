@@ -26,7 +26,7 @@
     "login": {
       "startOperationsOnMount": false,
       "operations": {
-        "signIn": ["firebase://login", { "onSuccess": "getAccount", "onError": "showError" }],
+        "signIn": ["firebase://login", { "onSuccess": "getAccount", "onError": "onError" }],
         "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "show:dashboard" }]
       },
       "dark": false,
@@ -48,7 +48,7 @@
     "register": {
       "startOperationsOnMount": false,
       "operations": {
-        "signUp": ["firebase://register", { "onSuccess": "show:setup", "onError": "showError" }]
+        "signUp": ["firebase://register", { "onSuccess": "show:setup", "onError": "onError" }]
       },
       "dark": false,
       "fields": {
