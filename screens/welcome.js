@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { Button, Card, Icon, Avatar } from 'react-native-elements'
 import { Styles, Screen } from 'react-native-chunky'
-import Swiper from 'react-native-swiper';
+import Swiper from 'react-native-swiper'
 
 export default class WelcomeScreen extends Screen {
 
@@ -70,10 +70,14 @@ export default class WelcomeScreen extends Screen {
     return this.props.slides.map(slide => this.renderSlide(slide))
   }
 
+  renderProgress() {
+    return (<View/>)
+  }
+
   renderData() {
-    return ( <View style={[this.styles.containers.main, styles.container, { backgroundColor: this.props.theme.primaryColor }]}>
+    return ( <View style={[this.styles.containers.main, styles.container, { flex: 1, backgroundColor: this.props.theme.primaryColor }]}>
             <Swiper
-                  style={styles.wrapper}
+                  style={styles.swiper}
                   activeDotColor={"#FFFFFF"}
                   dotColor={"#CFD8DC"}
                   showsButtons={false}>
@@ -86,12 +90,13 @@ export default class WelcomeScreen extends Screen {
     }
 }
 
-
-
 var styles = StyleSheet.create({
   container: {
   },
-  wrapper: {
+  swiper: {
+    flex: 1,
+    width: 400,
+    margin: 20
   },
   continue: {
     width: 300,
