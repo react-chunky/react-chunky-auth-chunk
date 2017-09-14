@@ -13,7 +13,7 @@ export default class WelcomeScreen extends Screen {
 
   constructor(props) {
     super(props)
-    this.state = { ...this.state }
+    this.state = { ...this.state, progress: false }
     this._onRegister = this.onRegister.bind(this)
   }
 

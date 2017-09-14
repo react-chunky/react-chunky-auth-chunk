@@ -3,6 +3,11 @@ import { Components } from 'react-native-chunky'
 
 export default class LoginScreen extends Components.Form {
 
+  constructor(props) {
+    super(props)
+    this.state = { ...this.state, progress: false }
+  }
+  
   onQuestionPressed() {
     this.transitions.showRegister()
   }
@@ -16,7 +21,7 @@ export default class LoginScreen extends Components.Form {
       return this.props.strings.passwordEmpty
     }
   }
-  
+
   submit({ email, password }) {
     this.props.signIn({ email, password })
   }

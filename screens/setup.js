@@ -6,7 +6,7 @@ export default class SetupScreen extends Components.Form {
 
   constructor(props) {
     super(props)
-    this.state = { ...this.state, progress: true }
+    this.state = { ...this.state, progress: false }
   }
 
   componentDidMount() {

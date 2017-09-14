@@ -3,6 +3,10 @@ import { Components } from 'react-native-chunky'
 
 export default class RegisterScreen extends Components.Form {
 
+  constructor(props) {
+    super(props)
+    this.state = { ...this.state, progress: false }
+  }
 
   validate() {
     if (!this.state.fields.name || this.state.fields.name.trim().length === 0) {
