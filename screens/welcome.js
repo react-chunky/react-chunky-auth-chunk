@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Image,
   View,
+  Platform,
   Text,
   StyleSheet
 } from 'react-native'
@@ -70,14 +71,11 @@ export default class WelcomeScreen extends Screen {
     return this.props.slides.map(slide => this.renderSlide(slide))
   }
 
-  renderProgress() {
-    return (<View/>)
-  }
 
   renderData() {
     return ( <View style={[this.styles.containers.main, styles.container, { flex: 1, backgroundColor: this.props.theme.primaryColor }]}>
             <Swiper
-                  style={styles.swiper}
+                  style={Platform.OS === 'android' ? styles.swiper : {}}
                   activeDotColor={"#FFFFFF"}
                   dotColor={"#CFD8DC"}
                   showsButtons={false}>
@@ -100,7 +98,9 @@ var styles = StyleSheet.create({
   },
   continue: {
     width: 300,
-    margin: 5
+    margin: 5,
+    paddingLeft: 30,
+    paddingRight: 30
   },
   header: {
     flex: 1,
@@ -145,6 +145,7 @@ var styles = StyleSheet.create({
     textAlign: "justify",
     color: '#ffffff',
     fontSize: 18,
+    marginTop: 30,
     paddingLeft: 20,
     paddingRight: 20
   }

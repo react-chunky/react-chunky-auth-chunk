@@ -39,7 +39,7 @@ export default class SetupScreen extends Components.Form {
   }
 
   submit({ name, phone }) {
-    this.props.updateAccount(Object.assign({ name, phone }, this.state.location, { photoData: this.state.photoData }))
+    this.props.updateAccount(Object.assign({ name, phone }, this.state.location, { photoData: `data:image/jpeg;base64,${this.state.photoData}`}))
   }
 
   selectedImageField(name, options) {

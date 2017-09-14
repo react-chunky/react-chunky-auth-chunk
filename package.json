@@ -1,6 +1,6 @@
 {
   "name": "react-chunky-auth-chunk",
-  "version": "0.8.14",
+  "version": "0.8.15",
   "description": "The Default Chunky Auth Chunk",
   "scripts": {
     "test": "react-native-savor test",
