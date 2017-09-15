@@ -39,25 +39,21 @@ export default class SetupScreen extends Components.Form {
   }
 
   submit({ name, phone }) {
-    this.props.updateAccount(Object.assign({ name, phone }, this.state.location, { photoData: `data:image/jpeg;base64,${this.state.photoData}`}))
+    this.props.updateAccount(Object.assign({ name, phone }, this.state.location, { photoData: this.state.photoData}))
   }
 
   selectedImageField(name, options) {
-    this.setState({ progress: true })
-
     this.choosePhoto()
   }
 
   onImageFieldPressed(name) {
-    this.setState({ progress: true })
-
     this.choosePhoto()
   }
 
   imageFieldData(name) {
     if (this.state.photoData) {
       return {
-        source: { uri: `data:image/jpeg;base64,${this.state.photoData}` }
+        source: { uri: this.state.photoData }
       }
     }
 
@@ -67,25 +63,17 @@ export default class SetupScreen extends Components.Form {
   }
 
   choosePhoto() {
-    ImagePicker.showImagePicker({ title: 'Select Photo',
-        storageOptions: {
-          skipBackup: true,
-          path: 'images'
-        }
-    }, (response) => {
-      if (response.didCancel) {
-        this.setState({ progress: false })
-      }
-
-      else if (response.error) {
-        this.setState({ progress: false })
-      }
-
-      else {
-        this.setState({ progress: false, photoData: response.data })
-      }
-    })
+    this.setState({ progress: true })
+    setTimeout(() =>
+              Utils.Photo.choosePhoto("Choose Your Photo", 120, 120).
+                then((data) => {
+                  this.setState({ photoData: data, progress: false })
+                }).
+                catch((error) => {
+                  this.setState({ progress: false })
+                }), 300)
   }
+
 
   onQuestionPressed() {
     // Check if the form is valid
