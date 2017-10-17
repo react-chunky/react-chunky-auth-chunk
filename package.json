@@ -1,9 +1,10 @@
 {
   "name": "react-chunky-auth-chunk",
-  "version": "0.8.16",
-  "description": "The Default Chunky Auth Chunk",
+  "version": "0.8.18",
+  "description": "The Chunky Auth Chunk",
   "scripts": {
     "test": "react-native-savor test",
+    "link": "react-native-savor lint",
     "coverage": "react-native-savor coverage",
     "codeclimate": "react-native-savor codeclimate"
   },
@@ -18,9 +19,11 @@
   },
   "homepage": "https://github.com/react-chunky/react-chunky-auth-chunk",
   "dependencies": {
-    "react-native-chunky": "0.8.x"
+    "react-native-chunky": "0.x",
+    "react-dom-chunky": "0.x"
   },
   "devDependencies": {
-    "react-native-savor": "0.x"
+    "react-native-savor": "0.x",
+    "react-savor": "0.x"
   }
 }

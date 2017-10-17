@@ -4,7 +4,7 @@
     "loading": {
       "operations": {
         "getContext": ["cache://retrieve/context#context", { "onSuccess": "checkUser", "onError": "newContext" }],
-        "checkUser": ["cache://retrieve/account#session", { "onSuccess": "getAccount", "onError": "show:login" }],
+        "checkUser": ["cache://retrieve/account#session", { "onSuccess": "getAccount", "onError": "show:welcome" }],
         "newContext": ["cache://create/context#context", { "onSuccess": "show:welcome" }],
         "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "show:dashboard" }],
         "removeAccount": "cache://delete/account#account",
@@ -13,6 +13,7 @@
       }
     },
     "welcome": {
+      "skipIntroMessage": false,
       "slides": [{
         "id": "1",
         "title":"Welcome",
@@ -22,6 +23,11 @@
         "title": "Get Ready",
         "text": "You're going to love it"
       }]
+    },
+    "message": {
+      "header": "Ready?",
+      "text": "Your journey is about to begin. Tap 'Continue' to start experiencing pure awesomeness.",
+      "button": "Continue"
     },
     "login": {
       "startOperationsOnMount": false,
@@ -74,6 +80,7 @@
       }
     },
     "setup": {
+      "startOperationsOnMount": false,
       "operations": {
         "getAccount": ["firebase://retrieve/users/:uid#account", { "onSuccess": "ready" }],
         "updateAccount": ["firebase://update/users/:uid#updated", { "onSuccess": "refreshAccount" }],
@@ -92,11 +99,12 @@
         "continue": "setup",
         "question": "skipSetup",
         "phoneEmpty": "enterPhone",
+        "locationEmpty": "waitForLocation",
         "phonePlaceholder": "phone",
         "imageEmpty": "enterImage",
         "imagePlaceholder": "image"
       }
     }
   },
-  "transitions": ["replace://login", "replace://welcome", "replace://register", "replace://setup", "replace://dashboard"]
+  "transitions": ["replace://login", "replace://message", "replace://welcome", "replace://register", "replace://setup", "replace://dashboard"]
 }

@@ -10,31 +10,62 @@ export default class SetupScreen extends Components.Form {
   }
 
   componentDidMount() {
-    super.componentDidMount()
+     super.componentDidMount()
+
+     const timer = setInterval(() => {
+      this.tick()
+     }, 1000)
+
+     if (this.props.detectLocation) {
+       this.detectLocation()
+     }
+
+     this.setState({ timer, time: 0 })
   }
 
-  ready(data) {
-    if (this.props.detectLocation) {
-      this.detectLocation(data)
+  componentWillUnmount() {
+    super.componentWillUnmount()
+    this.stopTimer()
+  }
+
+  stopTimer() {
+    if (!this.state.timer) {
+      return
+    }
+    clearInterval(this.state.timer)
+  }
+
+  tick() {
+    if (this.state.time >= 20) {
+      this.stopTimer
       return
     }
 
-    this.showForm(data)
+    this.setState({ time: this.state.time + 1})
   }
 
-  detectLocation(data) {
+  ready(data) {
+    this.setState({ data, progress: false})
+  }
+
+  detectLocation() {
     Utils.Geocoder.detectCoordinates().
-                  then((location) => this.showForm(data, location)).
-                  catch((error) => this.detectLocation())
-  }
-
-  showForm(data, location) {
-    this.setState({ data, location, progress: false})
+                  then((location) => {
+                    this.stopTimer()
+                    this.setState({ location })
+                  }).
+                  catch((error) => {
+                    this.detectLocation()
+                  })
   }
 
   validate() {
     if (!this.state.fields.phone || this.state.fields.phone.trim().length === 0) {
       return this.props.strings.phoneEmpty
+    }
+
+    if (!this.state.location && this.state.time < 20) {
+      return this.props.strings.locationEmpty
     }
   }
 

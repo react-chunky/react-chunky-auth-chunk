@@ -24,7 +24,7 @@ export default class WelcomeScreen extends Screen {
   }
 
   onRegister() {
-    this.transitions.showRegister({ settingUp: true })
+    this.transitions[`show${this.props.skipIntroMessage ? 'Register' : 'Message'}`]({ settingUp: true })
   }
 
   operationDidFinish(name, data, error) {
@@ -105,7 +105,7 @@ var styles = StyleSheet.create({
   header: {
     flex: 1,
     padding: 10,
-    marginTop: 60,
+    marginTop: 30,
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "flex-start",
